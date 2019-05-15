@@ -3,7 +3,7 @@
 sp='/-\|'
 sc=0
 spin() {
-    printf "\bPulling ${sp:sc++:1}"
+    echo -n "Pulling ${sp:sc++:1}"
     ((sc==${#sp})) && sc=0
 }
 endspin() {
