@@ -13,6 +13,7 @@ endspin() {
     printf '\r%s\n' "$@"
 }
 
+waitingForChange=0
 conflictsToSolve=0
 
 while(true);
@@ -29,7 +30,14 @@ while(true);
 			endspin;
 		fi
 	    spin
+	    waitingForChange=1
 	elif [ $LOCAL = $BASE ]; then
+		if [ $conflictsToSolve -eq 1 ]; then
+			conflictsToSolve=0
+		fi
+		if [ $waitingForChange -eq 1 ]; then
+			waitingForChange=0
+		fi
 		endspin
 		echo "-----------------------------";
 		echo "Pull";
@@ -38,6 +46,12 @@ while(true);
 		echo "-----------------------------";
 		echo -e "\n"
 	elif [ $REMOTE = $BASE ]; then
+		if [ $conflictsToSolve -eq 1 ]; then
+			conflictsToSolve=0
+		fi
+		if [ $waitingForChange -eq 1 ]; then
+			waitingForChange=0
+		fi
     	endspin;
 		echo "-----------------------------";
 		echo "Push";
@@ -46,6 +60,9 @@ while(true);
 		echo "-----------------------------";
 		echo -e "\n"
 	else
+		if [ $waitingForChange -eq 1 ]; then
+			waitingForChange=0
+		fi
 		endspin
 	    echo -en "\r\033[0;31mBEWARE ! No action possible, fix the divergence (possible rebase conflicts).\033[0m"
 		conflictsToSolve=1
