@@ -3,7 +3,7 @@
 sp='/-\|'
 sc=0
 spin() {
-    printf "Pulling. \b${sp:sc++:1}"
+    printf "\bPulling ${sp:sc++:1}"
     ((sc==${#sp})) && sc=0
 }
 endspin() {
