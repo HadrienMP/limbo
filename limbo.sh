@@ -15,7 +15,7 @@ endspin() {
 
 while(true);
   do
-  	git remote update > /dev/null;
+  	git remote update > /dev/null 2>&1;
 	UPSTREAM=${1:-'@{u}'}
 	LOCAL=$(git rev-parse @)
 	REMOTE=$(git rev-parse "$UPSTREAM")
@@ -40,6 +40,7 @@ while(true);
 		echo "-----------------------------";
 		echo -e "\n"
 	else
+		endspin
 	    echo "\033[0;31mBEWARE ! No action possible, fix the divergence (possible rebase conflicts)."
 	fi
   done;
