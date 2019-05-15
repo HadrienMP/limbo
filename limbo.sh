@@ -5,11 +5,10 @@ sc=0
 spin() {
     printf "\b${sp:sc++:1}"
     ((sc==${#sp})) && sc=0
-    sleep 0.1
+    sleep 0.05
 }
 endspin() {
     printf '\r%s\n' "$@"
-    sleep 0.1
 }
 
 while(true);
@@ -24,6 +23,7 @@ while(true);
   fi
 
   if [[ $(git cherry) ]]; then
+    endspin;
     echo "----";
     echo "Push";
     echo "----";
