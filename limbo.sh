@@ -3,10 +3,7 @@
 while(true);
   do
   if ! [[ $(git status --porcelain) ]]; then
-  echo "----";
-  echo "Pull";
-  echo "----";
-  git pull --rebase --quiet;
+    git pull --rebase --quiet;
   fi
 
   if test -d ".git/rebase-apply" ; then
