@@ -23,10 +23,11 @@ while(true);
 
   if [[ $(git cherry) ]]; then
     endspin;
-    echo "----";
+    echo "-----------------------------";
     echo "Push";
-    echo "----";
+    echo "-----------------------------";
     git push;
+    echo "-----------------------------";
     echo -e "\n"
   fi
   done;
