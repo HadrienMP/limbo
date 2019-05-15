@@ -2,11 +2,12 @@
 
 while(true);
   do
-  echo "";
+  if ! [[ $(git status --porcelain) ]]; then
   echo "----";
   echo "Pull";
   echo "----";
   git pull --rebase;
+  fi
 
   if [[ $(git cherry) ]]; then
     echo "----";
