@@ -24,7 +24,7 @@ while(true);
 	BASE=$(git merge-base @ "$UPSTREAM")
 
 	if [ $LOCAL = $REMOTE ]; then
-		if conflictsToSolve; then
+		if $conflictsToSolve; then
 			endspin;
 		fi
 	    spin
