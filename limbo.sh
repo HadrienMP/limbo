@@ -25,6 +25,7 @@ while(true);
 
 	if [ $LOCAL = $REMOTE ]; then
 		if [ $conflictsToSolve ]; then
+			conflictsToSolve=0
 			endspin;
 		fi
 	    spin
