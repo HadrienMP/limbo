@@ -9,6 +9,10 @@ while(true);
   git pull --rebase;
   fi
 
+  if test -d ".git/rebase-apply" ; then
+     echo "i\033[0;31mPlease deal with rebase conflicts !!!";
+  fi
+
   if [[ $(git cherry) ]]; then
     echo "----";
     echo "Push";
