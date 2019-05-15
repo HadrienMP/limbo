@@ -6,7 +6,7 @@ while(true);
   echo "----";
   echo "Pull";
   echo "----";
-  git pull --rebase;
+  git pull --rebase --quiet;
   fi
 
   if test -d ".git/rebase-apply" ; then
