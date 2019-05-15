@@ -5,7 +5,7 @@ sc=0
 spin() {
     printf "\b${sp:sc++:1}"
     ((sc==${#sp})) && sc=0
-    sleep 0.05
+    sleep 0.005
 }
 endspin() {
     printf '\r%s\n' "$@"
