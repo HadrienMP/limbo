@@ -2,7 +2,7 @@
 
 sp='/-\|'
 sc=0
-spin() {
+pullSpin() {
     echo -en "\rPulling ${sp:sc++:1}"
     ((sc==${#sp})) && sc=0
 }
@@ -14,7 +14,7 @@ while(true);
   do
   if ! [[ $(git status --porcelain) ]]; then
     git pull --rebase --quiet;
-    spin;
+    pullSpin;
   fi
 
   if test -d ".git/rebase-apply" ; then
