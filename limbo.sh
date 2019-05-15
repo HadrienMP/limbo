@@ -1,24 +1,5 @@
 #!/usr/bin/env bash
 
-
-# ------------
-# Pull
-# ------------
-
-# ------------
-# Push
-# ------------
-push() {
-  if [[ $(git cherry) ]]; then
-    endspin;
-    echo "-----------------------------";
-    echo "Push";
-    echo "-----------------------------";
-    git push;
-    echo "-----------------------------";
-    echo -e "\n"
-  fi
-}
 # ------------
 # Pull Spinner
 # ------------
@@ -44,9 +25,20 @@ while(true);
 	    spin
 	elif [ $LOCAL = $BASE ]; then
 		endspin
+		echo "-----------------------------";
+		echo "Pull";
+		echo "-----------------------------";
 		git pull --rebase;
+		echo "-----------------------------";
+		echo -e "\n"
 	elif [ $REMOTE = $BASE ]; then
-  		push;	
+    	endspin;
+		echo "-----------------------------";
+		echo "Push";
+		echo "-----------------------------";
+		git push;
+		echo "-----------------------------";
+		echo -e "\n"
 	else
 	    echo "\033[0;31mBEWARE ! No action possible, fix the divergence (possible rebase conflicts)."
 	fi
