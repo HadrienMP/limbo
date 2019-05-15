@@ -13,6 +13,8 @@ endspin() {
     printf '\r%s\n' "$@"
 }
 
+conflictsToSolve=0
+
 while(true);
   do
   	git remote update &> /dev/null;
@@ -22,6 +24,9 @@ while(true);
 	BASE=$(git merge-base @ "$UPSTREAM")
 
 	if [ $LOCAL = $REMOTE ]; then
+		if conflictsToSolve; then
+			endspin;
+		fi
 	    spin
 	elif [ $LOCAL = $BASE ]; then
 		endspin
@@ -41,6 +46,7 @@ while(true);
 		echo -e "\n"
 	else
 		endspin
-	    echo -en "\033[0;31mBEWARE ! No action possible, fix the divergence (possible rebase conflicts).\033[0m"
+	    echo -en "\r\033[0;31mBEWARE ! No action possible, fix the divergence (possible rebase conflicts).\033[0m"
+		conflictsToSolve=1
 	fi
   done;
