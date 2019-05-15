@@ -27,6 +27,6 @@ while(true);
     echo "Push";
     echo "----";
     git push;
-    echo -e "\n\n"
+    echo -e "\n"
   fi
   done;
