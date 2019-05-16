@@ -67,7 +67,7 @@ while(true);
 		    echo -e "\033[0;31mBEWARE ! No action possible, fix the divergence (possible rebase conflicts).\033[0m"
 		    read -p "Would like to reset your local copy to match the remote one ? (y/N) " reset
 		    if [[ reset -eq "y" ]]; then
-				remoteBranch= `git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/@@'`
+				remoteBranch=`git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/@@'`
 				git reset --hard $remoteBranch
 		    fi
 			conflictsToSolve=1
