@@ -20,58 +20,47 @@ conflictsToSolve=0
 # Wait
 # ------------
 wait() {
-    if [ $conflictsToSolve -eq 1 ]; then
-        conflictsToSolve=0
-    fi
+	stopConflictBlock;
     spin "Waiting for change"
     waitingForChange=1
+}
+
+stopWait() {
+    if [ $waitingForChange -eq 1 ]; then
+	    waitingForChange=0
+	    endspin
+    fi
 }
 
 # ------------
 # PULL
 # ------------
 pull() {
-    if [ $conflictsToSolve -eq 1 ]; then
-        conflictsToSolve=0
-    fi
-    if [ $waitingForChange -eq 1 ]; then
-        waitingForChange=0
-        endspin
-    fi
-    echo "-----------------------------";
+	stopConflictBlock;
+	stopWait;
+    echo -e "\n-----------------------------";
     echo "Pull";
-    echo "-----------------------------";
     git pull --rebase;
-    echo "-----------------------------";
+    echo -e "-----------------------------\n";
     echo -e "\n"
 }
 # ------------
 # PUSH
 # ------------
 push() {
-    if [ $conflictsToSolve -eq 1 ]; then
-        conflictsToSolve=0
-    fi
-    if [ $waitingForChange -eq 1 ]; then
-        waitingForChange=0
-        endspin;
-    fi
-    echo "-----------------------------";
+	stopConflictBlock;
+	stopWait;
+    echo -e "\n-----------------------------";
     echo "Push";
-    echo "-----------------------------";
     git push;
-    echo "-----------------------------";
-    echo -e "\n"
+    echo -e "-----------------------------\n";
 }
 
 # ------------
 # Conflicts
 # ------------
 handleConflicts() {
-    if [[ $waitingForChange -eq 1 ]]; then
-        waitingForChange=0
-        endspin
-    fi
+	stopWait;
     if [[ $conflictsToSolve -eq 0 ]]; then
         echo -e "\033[0;31mBEWARE ! No action possible, fix the divergence (possible rebase conflicts).\033[0m"
         read -p "Would like to reset your local copy to match the remote one ? (y/N) " reset
@@ -80,6 +69,12 @@ handleConflicts() {
             git reset --hard $remoteBranch
         fi
         conflictsToSolve=1
+    fi
+}
+
+stopConflictBlock() {
+    if [ $conflictsToSolve -eq 1 ]; then
+        conflictsToSolve=0
     fi
 }
 
