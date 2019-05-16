@@ -63,10 +63,9 @@ while(true);
 			waitingForChange=0
 			endspin
 		fi
-		if [ $conflictsToSolve -eq 1 ]; then
-			conflictsToSolve=0
+		if [ $conflictsToSolve -eq 0 ]; then
+		    echo -e "\033[0;31mBEWARE ! No action possible, fix the divergence (possible rebase conflicts).\033[0m"
+			conflictsToSolve=1
 		fi
-	    echo -e "\r\033[0;31mBEWARE ! No action possible, fix the divergence (possible rebase conflicts).\033[0m"
-		conflictsToSolve=1
 	fi
   done;
