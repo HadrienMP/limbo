@@ -62,8 +62,11 @@ while(true);
 	else
 		if [ $waitingForChange -eq 1 ]; then
 			waitingForChange=0
+			endspin
 		fi
-		endspin
+		if [ $conflictsToSolve -eq 1 ]; then
+			conflictsToSolve=0
+		fi
 	    echo -en "\r\033[0;31mBEWARE ! No action possible, fix the divergence (possible rebase conflicts).\033[0m"
 		conflictsToSolve=1
 	fi
