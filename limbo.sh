@@ -66,7 +66,7 @@ handleConflicts() {
         read -p "Would like to reset your local copy to match the remote one ? (y/N) " reset
         if [ "$reset" == "y" ]; then
             remoteBranch=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/@@')
-            git reset --hard $remoteBranch
+            git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)
         fi
         conflictsToSolve=1
     fi
