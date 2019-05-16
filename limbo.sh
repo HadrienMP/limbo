@@ -27,7 +27,6 @@ while(true);
 	if [ $LOCAL = $REMOTE ]; then
 		if [ $conflictsToSolve -eq 1 ]; then
 			conflictsToSolve=0
-			endspin;
 		fi
 	    spin
 	    waitingForChange=1
@@ -37,8 +36,8 @@ while(true);
 		fi
 		if [ $waitingForChange -eq 1 ]; then
 			waitingForChange=0
+			endspin
 		fi
-		endspin
 		echo "-----------------------------";
 		echo "Pull";
 		echo "-----------------------------";
@@ -51,8 +50,8 @@ while(true);
 		fi
 		if [ $waitingForChange -eq 1 ]; then
 			waitingForChange=0
+    		endspin;
 		fi
-    	endspin;
 		echo "-----------------------------";
 		echo "Push";
 		echo "-----------------------------";
