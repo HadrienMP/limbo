@@ -44,17 +44,30 @@ pull() {
     echo -e "-----------------------------\n";
     echo -e "\n"
 }
+
+# ------------
+# UTILS
+# ------------
+doesNotHaveUpstream() {
+	UPSTREAM=`git status --porcelain=v2 --branch | grep 'branch.upstream' | sed 's/.*upstream //'`
+	[ -z $UPSTREAM ]
+}
+
 # ------------
 # PUSH
 # ------------
+initialPush() {
+    echo -e "\n-----------------------------";
+    echo "Initial Push";
+
+	BRANCH_NAME=`git rev-parse --abbrev-ref HEAD`
+	git push -u origin $BRANCH_NAME;
+
+    echo -e "-----------------------------\n";
+}
 push() {
 	stopConflictBlock;
 	stopWait;
-	UPSTREAM=`git status --porcelain=v2 --branch | grep 'branch.upstream' | sed 's/.*upstream //'`
-	if [ -z $UPSTREAM ]; then
-		BRANCH_NAME=`git rev-parse --abbrev-ref HEAD`
-    	git push -u origin $BRANCH_NAME;
-	fi
     echo -e "\n-----------------------------";
     echo "Push";
     git push;
@@ -87,20 +100,24 @@ stopConflictBlock() {
 # ------------
 while(true);
   do
-  	git remote update &> /dev/null;
-	UPSTREAM=${1:-'@{u}'}
-	LOCAL=$(git rev-parse @)
-	REMOTE=$(git rev-parse "$UPSTREAM")
-	BASE=$(git merge-base @ "$UPSTREAM")
+  	if doesNotHaveUpstream; then
+  		initialPush
+  	else
+  		git remote update &> /dev/null;
+		UPSTREAM=${1:-'@{u}'}
+		LOCAL=$(git rev-parse @)
+		REMOTE=$(git rev-parse "$UPSTREAM")
+		BASE=$(git merge-base @ "$UPSTREAM")
 
-	if [ $LOCAL = $REMOTE ]; then
-        wait;
-	elif [ $LOCAL = $BASE ]; then
-        pull;
-	elif [ $REMOTE = $BASE ]; then
-        push;
-	else
-		handleConflicts;
-	fi
+		if [ $LOCAL = $REMOTE ]; then
+	        wait;
+		elif [ $LOCAL = $BASE ]; then
+	        pull;
+		elif [ $REMOTE = $BASE ]; then
+	        push;
+		else
+			handleConflicts;
+		fi
+  	fi
   done;
 
