@@ -50,6 +50,11 @@ pull() {
 push() {
 	stopConflictBlock;
 	stopWait;
+	UPSTREAM=`git status --porcelain=v2 --branch | grep 'branch.upstream' | sed 's/.*upstream //'`
+	if [ -z $UPSTREAM ]; then
+		BRANCH_NAME=`git rev-parse --abbrev-ref HEAD`
+    	git push -u origin $BRANCH_NAME;
+	fi
     echo -e "\n-----------------------------";
     echo "Push";
     git push;
