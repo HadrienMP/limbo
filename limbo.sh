@@ -46,14 +46,6 @@ pull() {
 }
 
 # ------------
-# UTILS
-# ------------
-doesNotHaveUpstream() {
-	UPSTREAM=`git status --porcelain=v2 --branch | grep 'branch.upstream' | sed 's/.*upstream //'`
-	[ -z $UPSTREAM ]
-}
-
-# ------------
 # PUSH
 # ------------
 initialPush() {
@@ -100,24 +92,20 @@ stopConflictBlock() {
 # ------------
 while(true);
   do
-  	if doesNotHaveUpstream; then
-  		initialPush
-  	else
-  		git remote update &> /dev/null;
-		UPSTREAM=${1:-'@{u}'}
-		LOCAL=$(git rev-parse @)
-		REMOTE=$(git rev-parse "$UPSTREAM")
-		BASE=$(git merge-base @ "$UPSTREAM")
+     git remote update &> /dev/null;
+     UPSTREAM=${1:-'@{u}'}
+     LOCAL=$(git rev-parse @)
+     REMOTE=$(git rev-parse "$UPSTREAM")
+     BASE=$(git merge-base @ "$UPSTREAM")
 
-		if [ $LOCAL = $REMOTE ]; then
-	        wait;
-		elif [ $LOCAL = $BASE ]; then
-	        pull;
-		elif [ $REMOTE = $BASE ]; then
-	        push;
-		else
-			handleConflicts;
-		fi
-  	fi
+     if [ $LOCAL = $REMOTE ]; then
+         wait;
+     elif [ $LOCAL = $BASE ]; then
+         pull;
+     elif [ $REMOTE = $BASE ]; then
+         push;
+     else
+         handleConflicts;
+     fi
   done;
 
